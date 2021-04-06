@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <sstream>
 using namespace std;
 
 void swap(int &x, int &y)
@@ -140,21 +141,6 @@ void heapSort(int X[], int n)
     }
 }
 
-vector<int> convertStrtoArr(string str)
-{
-    int str_length = str.length();
-    vector<int> X;
-    int j = 0, i, sum = 0;
-    for (i = 0; str[i] != '\0'; i++)
-    {
-        if (str[i] == ' ')
-            j++;
-        else
-            X.push_back(str[i] - 48);
-    }
-    return X;
-}
-
 void printArray(int A[], int n)
 {
     for (int i = 0; i < n; i++)
@@ -162,7 +148,8 @@ void printArray(int A[], int n)
     cout << endl;
 }
 
-void fourSortAlgos(int A[], int n){
+void fourSortAlgos(int A[], int n)
+{
     {
         bubbleSort(A, n);
         cout << "Bubble Sort: ";
@@ -187,20 +174,35 @@ void fourSortAlgos(int A[], int n){
 
 void sortFile()
 {
+    // freopen("Proj1_Ex1_SortingAlgos_DataFile.txt","r",stdin);
+    // int n;
+    // while(scanf("%d",&n){
+
+    // }
     string myArray;
-    ifstream myReadFile("Proj1_Ex1_SortingAlgos_DataFile.txt");
-    getline(myReadFile, myArray);
-    cout << "Initial data: " << myArray;
-    vector<int> X = convertStrtoArr(myArray);
-    int n = X.size();
-    int A[n];
-    for (int i = 0; i < X.size(); i ++)
-        A[i] = X[i];
+    ifstream file;
+    file.open("Proj1_Ex1_SortingAlgos_DataFile.txt");
+    file >> myArray;
+    stringstream geek(myArray);
+    int n = 0;
+    geek >> n;
+    string Arr[n];
+    int A[n] = {0};
+    cout << "Initial data: ";
+    for (int i = 0; i < n; i++)
+    {
+        file >> Arr[i];
+        stringstream geek(Arr[i]);
+        geek >> A[i];
+        cout << A[i] << " ";
+    }
     cout << endl;
-    fourSortAlgos(A,n);
-    ofstream myWriteFile("Proj1_Ex1_SortingAlgos_DataFile.txt");
-    for (int i = 0; i< n; i ++)
-        myWriteFile << A[i] << " ";
+    fourSortAlgos(A, n);
+    ofstream wFile;
+    wFile << n << " ";
+    for (int i = 0; i < n; i++)
+        wFile << A[i] << " ";
+    wFile.close(); //??
 }
 
 void sortKeyboard()
@@ -215,7 +217,7 @@ void sortKeyboard()
         cin >> x;
         A[i] = x;
     }
-    fourSortAlgos(A,n);
+    fourSortAlgos(A, n);
 }
 
 void sortRandomly()
@@ -233,7 +235,7 @@ void sortRandomly()
         cout << A[i] << " ";
     }
     cout << endl;
-    fourSortAlgos(A,n);
+    fourSortAlgos(A, n);
 }
 
 int main()
@@ -253,12 +255,14 @@ int main()
             sortKeyboard();
         else if (a == '3')
             sortRandomly();
-        else{
+        else
+        {
             cout << "Are you sure you want to quit? (y/n) ";
             cin >> a;
             if (a == 'n' || a == 'N')
                 continue;
-            else break;
+            else
+                break;
         }
     }
     return 0;
